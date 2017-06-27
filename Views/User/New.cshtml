@@ -1,0 +1,17 @@
+<h1>Register</h1>
+
+<form id="registration-form" method="post" enctype="multipart/form-data" asp-controller="user" asp-action="create">
+    <label>Username:</label>
+    <input type="text" name="username" required autocomplete="off"/>
+    <br/>
+
+    <label>Password:</label>
+    <input type="password" name="password" minlength="6" required autocomplete="off"/>
+    <br/>
+
+    <label>Password Confirmation:</label>
+    <input type="password" required autocomplete="off"/>
+    <br/>
+    
+    <input type="submit" value="submit" />
+</form>

@@ -1,0 +1,11 @@
+<h1>Login Here</h1>
+
+<form id="login-form" method="post" enctype="multipart/form-data" asp-controller="User" asp-action="CreateSession">
+    <label>Username:</label>
+    <input type="text" name="username" required autocomplete="off"/>
+    <br/>
+    <label>Password:</label>    
+    <input type="password" name="password" required autocomplete="off"/>
+    <br/>
+    <input type="submit" value="submit" />
+</form>
