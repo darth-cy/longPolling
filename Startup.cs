@@ -39,9 +39,9 @@ namespace AdminAPI
         public void addInfo(string userId, string newInfo){
             List<string> entry;
             for(int i = 0; i < _userIds.Count; i++){
-                if(userId == _userIds[i]){
-                    continue;
-                }
+                // if(userId == _userIds[i]){
+                //     continue;
+                // }
                 entry = _store[_userIds[i]] as List<string>;
                 entry.Add(newInfo);
                 _shouldUpdateStore[_userIds[i]] = true;
@@ -101,6 +101,7 @@ namespace AdminAPI
             loggerFactory.AddDebug();
 
             app.UseMvc();
+            app.UseStaticFiles();
         }
     }
 }

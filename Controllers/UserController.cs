@@ -28,7 +28,7 @@ namespace AdminAPI.Controllers
         [HttpGet("show", Name="Show")]
         public ActionResult Show(){
             if(Request.Cookies["admin-api-session-token"] == null){
-                return RedirectToAction("Login", "Session");
+                return RedirectToAction("Login", "User");
             }
             var users = _context.Users.Where(u => u.SessionToken == Request.Cookies["admin-api-session-token"]);
 
@@ -140,9 +140,9 @@ namespace AdminAPI.Controllers
 
         [HttpPost("post/id={userId}&content={content}", Name="Post")]
         public void Post(string userId, string content){
-            if(!Globals.pushStore.isSubscribed(userId)){
-                Globals.pushStore.addSubscription(userId);
-            }
+            // if(!Globals.pushStore.isSubscribed(userId)){
+            //     Globals.pushStore.addSubscription(userId);
+            // }
 
             Globals.pushStore.addInfo(userId, content);
         }

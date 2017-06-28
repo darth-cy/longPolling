@@ -1,20 +1,36 @@
-<h1>主页</h1>
-<form id="logout-form" method="post" enctype="multipart/form-data" asp-controller="user" asp-action="DeleteSession">
-    <input type="submit" value="logout" />
-</form>
 
-<form id="work-log-form">
-    <h3>@ViewBag.Username 工作日志</h3>
-    <input id="work-log" type="text" />
-    <input type="submit" class="btn" value="提交" />
-</form>
 
-<hr/>
+<div class="container">
+    <div class="col-md-6">
+        <h3>@ViewBag.Username 工作主页</h3>
 
-<button class="btn" id="food-button">外出觅食</button>
-<button class="btn" id="unbrella-button">寻人借伞</button>
+        <br/>
+        <h4>快捷功能</h4>
+        <button class="btn btn-default" id="food-button">找人外出觅食</button>
+        <button class="btn btn-default" id="unbrella-button">寻人借伞</button>
+        <form id="logout-form" method="post" enctype="multipart/form-data" asp-controller="user" asp-action="DeleteSession">
+            <input class="btn btn-default" type="submit" value="登出" />
+        </form>
 
-<ul id="information-list"></ul>
+        <hr/>
+        <h4>群内发言</h4>
+        <form class="form-horizontal" id="work-log-form">
+            <input class="form-control" id="work-log" type="text" />
+            <br/>
+            <input class="btn btn-default" type="submit" value="提交" />
+        </form>
+
+        <hr/>
+
+        
+        
+    </div>
+    <div class="col-md-6">
+         <ul class="list-group" id="information-list"></ul>
+    </div>
+</div>
+
+
 
 <script>
     function randomString(length) {
@@ -41,7 +57,7 @@
             success: function(newInfo){
                 dataStore.information = dataStore.information.concat(newInfo);
                 for(var i = 0; i < newInfo.length; i++){
-                    $("#information-list").append("<li>" + newInfo[i] + "</li>");
+                    $("#information-list").append("<li class='list-group-item'>" + newInfo[i] + "</li>");
                 }
                 
                 longPolling();
@@ -77,28 +93,14 @@
     $(function(){
         longPolling();
 
-        $("#for-button").on("click", (e) => {
-            e.preventDefault();
-            makeAjax("用户（" + dataStore.userId + "）投了赞同票。")();
-        })
-        $("#against-button").on("click", (e) => {
-            e.preventDefault();
-            makeAjax("用户（" + dataStore.userId + "）投了反对票。")();
-        })
-        $("#refusal-form").on("submit", (e) => {
-            e.preventDefault();
-            makeAjax("用户（" + dataStore.userId + "）拒答并表示‘" + $("#reason-of-refusal").val() + "’。" )();
-            $("#reason-of-refusal").val("");
-        })
-
         $("#work-log-form").on("submit", (e) => {
             e.preventDefault();
-            makeAjax("用户（" + dataStore.userId + "）日志发言:" + $("#work-log").val() + "。" )();
+            makeAjax("用户（" + dataStore.userId + "）群内发言: " + $("#work-log").val() + "。" )();
             $("#work-log").val("");
         }) 
         $("#food-button").on("click", (e) => {
             e.preventDefault();
-            makeAjax("用户（" + dataStore.userId + "）已外出就餐。")();
+            makeAjax("用户（" + dataStore.userId + "）正在组队外出就餐。")();
         })
         $("#unbrella-button").on("click", (e) => {
             e.preventDefault();
@@ -111,58 +113,20 @@
         makeAjax("用户（" + dataStore.userId + "）上线了。")();
     })
 
-    $(document).addEventListener("unload", (e) => {
+    $(document).on("unload", (e) => {
         $.ajax({
-                url: "delete/id=" + dataStore.userId,
-                method: "DELETE",
-                dataType: "JSON",
-                data: JSON.stringify({
-                    userId: dataStore.userId
-                }),
-                success: function(response){
-                    console.log(response);
-                },
-                error: function(err){
-                    debugger;
-                }
-            });
+            url: "delete/id=" + dataStore.userId,
+            method: "DELETE",
+            dataType: "JSON",
+            data: JSON.stringify({
+                userId: dataStore.userId
+            }),
+            success: function(response){
+                console.log(response);
+            },
+            error: function(err){
+                debugger;
+            }
+        });
     })
 </script>
-
-<style>
-    #for-button, #against-button{
-        background-color: green;
-        font-size: 2rem;
-        padding: 1rem;
-        color: white;
-        font-weight: bold;
-        border: none;
-        outline: none;
-        cursor: pointer;
-    }
-    #against-button{
-        background-color: red;
-    }
-
-    .btn{
-        font-size: 1.5rem;
-        padding: 1rem;
-        outline: none;
-        border: none;
-        background-color: white;
-        color: black;
-        border: 1px solid black;
-        cursor: pointer;
-    }
-    #work-log-form{
-        padding: 2rem;
-        font-size: 1.5rem;
-        border: 1px solid black;
-    }
-    #work-log{
-        height: 3rem;
-        font-size: 1.5rem;
-        width: 50vw;
-
-    }
-</style>

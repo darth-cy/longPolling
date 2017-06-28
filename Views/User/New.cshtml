@@ -1,17 +1,19 @@
-<h1>Register</h1>
+<div class="col-md-6">
+    <form class="form-horizontal" id="registration-form" method="post" enctype="multipart/form-data" asp-controller="user" asp-action="create">
+        <h3>新用户注册</h3>
+        <br/>
+        <label>用户名:</label>
+        <input class="form-control" type="text" name="username" required autocomplete="off"/>
+        <br/>
 
-<form id="registration-form" method="post" enctype="multipart/form-data" asp-controller="user" asp-action="create">
-    <label>Username:</label>
-    <input type="text" name="username" required autocomplete="off"/>
-    <br/>
+        <label>密码:</label>
+        <input class="form-control" type="password" name="password" minlength="6" required autocomplete="off"/>
+        <br/>
 
-    <label>Password:</label>
-    <input type="password" name="password" minlength="6" required autocomplete="off"/>
-    <br/>
-
-    <label>Password Confirmation:</label>
-    <input type="password" required autocomplete="off"/>
-    <br/>
-    
-    <input type="submit" value="submit" />
-</form>
+        <label>重复密码:</label>
+        <input class="form-control" type="password" required autocomplete="off"/>
+        <br/>
+        
+        <input class="btn btn-default" type="submit" value="submit" />
+    </form>
+</div>
