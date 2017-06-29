@@ -84,7 +84,25 @@ namespace AdminAPI
             return _store.ContainsKey(userId);
         }
         public List<string> userStatus(string userId){
-            return _allUserIds;
+            List<string> silenced = _silenced[userId] as List<string>;
+            Hashtable silencedHash = new Hashtable();
+            for(int i = 0; i < silenced.Count; i++){
+                silencedHash[silenced[i]] = true;
+            }
+            Hashtable onlineHash = new Hashtable();
+            for(int j = 0; j < _userIds.Count; j++){
+                onlineHash[_userIds[j]] = true;
+            }
+
+            List<string> result = new List<string>();
+            string name, ol, sil;
+            for(int k = 0; k < _allUserIds.Count; k++){
+                name = _allUserIds[k];
+                ol = (bool)onlineHash.ContainsKey(name) ? "Online" : "Offline";
+                sil = (bool)silencedHash.ContainsKey(name) ? "Unsilence" : "Silence";
+                result.Add(string.Format("{0};{1};{2}", name, ol, sil));
+            }
+            return result;
         }
         public void silence(string userId, string targetUserId){
             List<string> silenceList = _silenced[userId] as List<string>;
@@ -106,6 +124,7 @@ namespace AdminAPI
                 beingSilencedList.Remove(userId);
             }
         }
+
     }
 
     public static class Globals{
