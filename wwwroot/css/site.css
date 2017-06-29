@@ -46,8 +46,6 @@
 .contact-list-column > h3{
     color: white;
 }
-.message-column > h3{
-}
 .work-table-column{
     padding-left: 2vw;
     padding-right: 2vw;
@@ -61,4 +59,12 @@
     padding-top: 2vw;
     min-height: 150vh;
     background-color: #ffecb1;
+}
+.list-group{
+    border-radius: 0px !important;
+    border: none;
+}
+.list-group-item{
+    border-radius: 0px !important;
+    border: none;
 }
