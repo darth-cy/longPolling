@@ -4,3 +4,61 @@
 #logout-form{
     display: inline-block;
 }
+.silence-button, .unsilence-button{
+    position: absolute;
+    border-radius: 0px;
+    border: none;
+    height: 100%;
+    right: 0px;
+    width: 30%;
+    font-size: 1vw;
+    text-align: center;
+    top: 0px;
+    color: white;
+}
+.silence-button{
+    background-color: red;
+}
+.unsilence-button{
+    background-color: green;
+}
+.subsection-header{
+    text-align: center;
+}
+.container, .container-fluid{
+    width: 100% !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.col-md-4, .col-md-3, .col-md-5{
+    padding: 0px;
+}
+.navbar{
+    margin-bottom: 0px !important;
+}
+.contact-list-column{
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-top: 2vw;
+    min-height: 150vh;
+    background-color: #0a1a51;
+}
+.contact-list-column > h3{
+    color: white;
+}
+.message-column > h3{
+}
+.work-table-column{
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-top: 2vw;
+    min-height: 150vh;
+    background-color: white;
+}
+.message-column{
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-top: 2vw;
+    min-height: 150vh;
+    background-color: #ffecb1;
+}

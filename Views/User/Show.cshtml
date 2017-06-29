@@ -2,12 +2,12 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4">
-            <h3>All Users</h3>
+        <div class="col-md-3 contact-list-column">
+            <h3 class="subsection-header">群用户列表</h3>
             <ul class="list-group" id="users-list"></ul>
         </div>
-        <div class="col-md-4">
-            <h3>@ViewBag.Username 工作主页</h3>
+        <div class="col-md-5 work-table-column">
+            <h3 class="subsection-header">@ViewBag.Username 工作主页</h3>
 
             <br/>
             <h4>快捷功能</h4>
@@ -18,7 +18,7 @@
             </form>
 
             <hr/>
-            <h4>群内发言</h4>
+            <h4 class="subsection-header">群内发言</h4>
             <form class="form-horizontal" id="work-log-form">
                 <input class="form-control" id="work-log" type="text" />
                 <br/>
@@ -30,8 +30,8 @@
             
             
         </div>
-        <div class="col-md-4">
-            <h3>Message Box</h3>
+        <div class="col-md-4 message-column">
+            <h3 class="subsection-header">全部活动</h3>
             <ul class="list-group" id="information-list"></ul>
         </div>
     </div>
@@ -78,11 +78,14 @@
 
     function bindSilenceButtons(){
         $(".silence-button").on("click", (e) => {
+            e.preventDefault();
             var targetId = e.currentTarget.parentElement.dataset.targetid;
+            $(e.currentTarget).attr("disabled", true);
             $.ajax({
                 url: "silence/id=" + dataStore.userId + "&targetId=" + targetId,
                 method: "POST",
                 success: function(response){
+                    getUserStatus();
                     debugger;
                 },
                 error: function(response){
@@ -93,11 +96,14 @@
     }
     function bindUnsilenceButtons(){
         $(".unsilence-button").on("click", (e) => {
+            e.preventDefault();
             var targetId = e.currentTarget.parentElement.dataset.targetid;
+            $(e.currentTarget).attr("disabled", true);
             $.ajax({
                 url: "unsilence/id=" + dataStore.userId + "&targetId=" + targetId,
                 method: "POST",
                 success: function(response){
+                    getUserStatus();
                     debugger;
                 },
                 error: function(response){
@@ -116,8 +122,8 @@
                 $("#users-list").html("");
                 for(var i = 0; i < response.length; i++){
                     var responseFields = response[i].split(";");
-
-                    $("#users-list").append("<li class='list-group-item' data-targetId='" + responseFields[0] + "'>" + responseFields[0] + " <button class='silence-button'>Silence</button><button class='unsilence-button'>Unsilence</button></li>");
+                    var btn = responseFields[2] == "Silence" ? "<button class='silence-button btn btn-default'>静音</button>" : "<button class='unsilence-button btn btn-default'>收信</button>";
+                    $("#users-list").append("<li class='list-group-item' data-targetId='" + responseFields[0] + "'>" + responseFields[0] + " " + btn + " </li>");
                 }
                 bindSilenceButtons();
                 bindUnsilenceButtons();

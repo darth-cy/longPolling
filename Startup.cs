@@ -40,7 +40,7 @@ namespace AdminAPI
             _allUserIds.Add(userId);
         }
         public void removeSubscription(string userId){
-            _userIds.RemoveAt(_userIds.IndexOf(userId));
+            _userIds.Remove(userId);
             _store.Remove(userId);
             _shouldUpdateStore.Remove(userId);
             _nextStartStore.Remove(userId);
