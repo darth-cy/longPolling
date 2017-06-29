@@ -1,32 +1,39 @@
 
 
-<div class="container">
-    <div class="col-md-6">
-        <h3>@ViewBag.Username 工作主页</h3>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <h3>All Users</h3>
+            <ul id="users-list"></ul>
+        </div>
+        <div class="col-md-4">
+            <h3>@ViewBag.Username 工作主页</h3>
 
-        <br/>
-        <h4>快捷功能</h4>
-        <button class="btn btn-default" id="food-button">找人外出觅食</button>
-        <button class="btn btn-default" id="unbrella-button">寻人借伞</button>
-        <form id="logout-form" method="post" enctype="multipart/form-data" asp-controller="user" asp-action="DeleteSession">
-            <input class="btn btn-default" type="submit" value="登出" />
-        </form>
-
-        <hr/>
-        <h4>群内发言</h4>
-        <form class="form-horizontal" id="work-log-form">
-            <input class="form-control" id="work-log" type="text" />
             <br/>
-            <input class="btn btn-default" type="submit" value="提交" />
-        </form>
+            <h4>快捷功能</h4>
+            <button class="btn btn-default" id="food-button">找人外出觅食</button>
+            <button class="btn btn-default" id="unbrella-button">寻人借伞</button>
+            <form id="logout-form" method="post" enctype="multipart/form-data" asp-controller="user" asp-action="DeleteSession">
+                <input class="btn btn-default" type="submit" value="登出" />
+            </form>
 
-        <hr/>
+            <hr/>
+            <h4>群内发言</h4>
+            <form class="form-horizontal" id="work-log-form">
+                <input class="form-control" id="work-log" type="text" />
+                <br/>
+                <input class="btn btn-default" type="submit" value="提交" />
+            </form>
 
-        
-        
-    </div>
-    <div class="col-md-6">
-         <ul class="list-group" id="information-list"></ul>
+            <hr/>
+
+            
+            
+        </div>
+        <div class="col-md-4">
+            <h3>Message Box</h3>
+            <ul class="list-group" id="information-list"></ul>
+        </div>
     </div>
 </div>
 
