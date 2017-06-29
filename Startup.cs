@@ -18,17 +18,20 @@ namespace AdminAPI
         private Hashtable _shouldUpdateStore;
         private List<string> _userIds;
         private Hashtable _nextStartStore;
+        private List<string> _allUserIds;
         public Store(){
             _userIds = new List<string>();
             _shouldUpdateStore = new Hashtable();
             _store = new Hashtable();
             _nextStartStore = new Hashtable();
+            _allUserIds = new List<string>();
         }
         public void addSubscription(string userId){
             _userIds.Add(userId);
             _store.Add(userId, new List<string>());
             _shouldUpdateStore.Add(userId, false);
             _nextStartStore.Add(userId, 0);
+            _allUserIds.Add(userId);
         }
         public void removeSubscription(string userId){
             _userIds.RemoveAt(_userIds.IndexOf(userId));
@@ -65,6 +68,9 @@ namespace AdminAPI
         }
         public bool isSubscribed(string userId){
             return _store.ContainsKey(userId);
+        }
+        public List<string> userStatus(string userId){
+            return _allUserIds;
         }
     }
 

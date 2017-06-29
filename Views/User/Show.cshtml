@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-4">
             <h3>All Users</h3>
-            <ul id="users-list"></ul>
+            <ul class="list-group" id="users-list"></ul>
         </div>
         <div class="col-md-4">
             <h3>@ViewBag.Username 工作主页</h3>
@@ -50,6 +50,7 @@
     }
 
     var dataStore = {
+        users: [],
         userId: "@ViewBag.Username",
         information: []
     };
@@ -66,11 +67,28 @@
                 for(var i = 0; i < newInfo.length; i++){
                     $("#information-list").append("<li class='list-group-item'>" + newInfo[i] + "</li>");
                 }
-                
+                getUserStatus();
                 longPolling();
             },
             error: function(err){
             
+            }
+        })
+    }
+
+    function getUserStatus(){
+        $.ajax({
+            url: "user_status/id=" + dataStore.userId,
+            method: "GET",
+            success: function(response){
+                dataStore.users = response;
+                $("#users-list").html("");
+                for(var i = 0; i < response.length; i++){
+                    $("#users-list").append("<li class='list-group-item'>" + response[i] + "</li>");
+                }
+            },
+            error: function(err){
+
             }
         })
     }
@@ -98,8 +116,6 @@
     }
 
     $(function(){
-        longPolling();
-
         $("#work-log-form").on("submit", (e) => {
             e.preventDefault();
             makeAjax("用户（" + dataStore.userId + "）群内发言: " + $("#work-log").val() + "。" )();
@@ -116,8 +132,9 @@
         $("#logout-form").on("submit", (e) => {
             makeAjax("用户（" + dataStore.userId + "）下线了。")();
         })
-        
+        longPolling();
         makeAjax("用户（" + dataStore.userId + "）上线了。")();
+        getUserStatus();
     })
 
     $(document).on("unload", (e) => {

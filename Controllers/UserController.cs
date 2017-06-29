@@ -68,6 +68,7 @@ namespace AdminAPI.Controllers
                 SessionToken = sessionToken
             });
             _context.SaveChanges();
+            Globals.pushStore.addSubscription(userName);
             
             Response.Cookies.Append("admin-api-session-token", sessionToken);
             return RedirectToAction("Show", "User");
@@ -126,11 +127,7 @@ namespace AdminAPI.Controllers
         }
 
         [HttpGet("fetch/{id}", Name="Fetch")]
-        public List<string> Fetch(string id){
-            if(!Globals.pushStore.isSubscribed(id)){
-                Globals.pushStore.addSubscription(id);
-            }
-            
+        public List<string> Fetch(string id){            
             while(!Globals.pushStore.shouldUpdate(id)){
                 Thread.Sleep(500);
             }
@@ -150,6 +147,10 @@ namespace AdminAPI.Controllers
         [HttpDelete("delete/id={userId}", Name="Delete")]
         public void Delete(string userId){
             Globals.pushStore.removeSubscription(userId);
+        }
+        [HttpGet("user_status/id={userId}", Name="UserStatus")]
+        public List<string> UserStatus(string userId){
+            return Globals.pushStore.userStatus(userId);
         }
     }
 }
