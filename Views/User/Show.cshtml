@@ -76,6 +76,37 @@
         })
     }
 
+    function bindSilenceButtons(){
+        $(".silence-button").on("click", (e) => {
+            var targetId = e.currentTarget.parentElement.dataset.targetid;
+            $.ajax({
+                url: "silence/id=" + dataStore.userId + "&targetId=" + targetId,
+                method: "POST",
+                success: function(response){
+                    debugger;
+                },
+                error: function(response){
+                    debugger;
+                }
+            })
+        });
+    }
+    function bindUnsilenceButtons(){
+        $(".unsilence-button").on("click", (e) => {
+            var targetId = e.currentTarget.parentElement.dataset.targetid;
+            $.ajax({
+                url: "unsilence/id=" + dataStore.userId + "&targetId=" + targetId,
+                method: "POST",
+                success: function(response){
+                    debugger;
+                },
+                error: function(response){
+                    debugger;
+                }
+            })
+        });
+    }
+
     function getUserStatus(){
         $.ajax({
             url: "user_status/id=" + dataStore.userId,
@@ -84,8 +115,10 @@
                 dataStore.users = response;
                 $("#users-list").html("");
                 for(var i = 0; i < response.length; i++){
-                    $("#users-list").append("<li class='list-group-item'>" + response[i] + "</li>");
+                    $("#users-list").append("<li class='list-group-item' data-targetId='" + response[i] + "'>" + response[i] + " <button class='silence-button'>Silence</button><button class='unsilence-button'>Unsilence</button></li>");
                 }
+                bindSilenceButtons();
+                bindUnsilenceButtons();
             },
             error: function(err){
 

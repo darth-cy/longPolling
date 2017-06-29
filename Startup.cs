@@ -19,16 +19,22 @@ namespace AdminAPI
         private List<string> _userIds;
         private Hashtable _nextStartStore;
         private List<string> _allUserIds;
+        private Hashtable _silenced;
+        private Hashtable _beingSilenced;
         public Store(){
             _userIds = new List<string>();
             _shouldUpdateStore = new Hashtable();
             _store = new Hashtable();
             _nextStartStore = new Hashtable();
             _allUserIds = new List<string>();
+            _silenced = new Hashtable();
+            _beingSilenced = new Hashtable();
         }
         public void addSubscription(string userId){
             _userIds.Add(userId);
             _store.Add(userId, new List<string>());
+            _silenced.Add(userId, new List<string>());
+            _beingSilenced.Add(userId, new List<string>());
             _shouldUpdateStore.Add(userId, false);
             _nextStartStore.Add(userId, 0);
             _allUserIds.Add(userId);
@@ -38,13 +44,21 @@ namespace AdminAPI
             _store.Remove(userId);
             _shouldUpdateStore.Remove(userId);
             _nextStartStore.Remove(userId);
+            _silenced.Remove(userId);
+            _beingSilenced.Remove(userId);
         }
         public void addInfo(string userId, string newInfo){
+            List<string> skipList = _beingSilenced[userId] as List<string>;
+            Hashtable skipHash = new Hashtable();
+            for(int i = 0; i < skipList.Count; i++){
+                skipHash[skipList[i]] = true;
+            }
+
             List<string> entry;
             for(int i = 0; i < _userIds.Count; i++){
-                // if(userId == _userIds[i]){
-                //     continue;
-                // }
+                if(skipHash.ContainsKey(_userIds[i])){
+                    continue;
+                }
                 entry = _store[_userIds[i]] as List<string>;
                 entry.Add(newInfo);
                 _shouldUpdateStore[_userIds[i]] = true;
@@ -71,6 +85,26 @@ namespace AdminAPI
         }
         public List<string> userStatus(string userId){
             return _allUserIds;
+        }
+        public void silence(string userId, string targetUserId){
+            List<string> silenceList = _silenced[userId] as List<string>;
+            List<string> beingSilencedList = _beingSilenced[targetUserId] as List<string>;
+            if(silenceList.IndexOf(targetUserId) < 0){
+                silenceList.Add(targetUserId);
+            }
+            if(beingSilencedList.IndexOf(userId) < 0){
+                beingSilencedList.Add(userId);
+            }
+        }
+        public void unsilence(string userId, string targetUserId){
+            List<string> silenceList = _silenced[userId] as List<string>;
+            List<string> beingSilencedList = _beingSilenced[targetUserId] as List<string>;
+            if(silenceList.IndexOf(targetUserId) >= 0){
+                silenceList.Remove(targetUserId);
+            }
+            if(beingSilencedList.IndexOf(userId) >= 0){
+                beingSilencedList.Remove(userId);
+            }
         }
     }
 

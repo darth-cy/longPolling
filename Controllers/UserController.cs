@@ -137,10 +137,6 @@ namespace AdminAPI.Controllers
 
         [HttpPost("post/id={userId}&content={content}", Name="Post")]
         public void Post(string userId, string content){
-            // if(!Globals.pushStore.isSubscribed(userId)){
-            //     Globals.pushStore.addSubscription(userId);
-            // }
-
             Globals.pushStore.addInfo(userId, content);
         }
 
@@ -151,6 +147,14 @@ namespace AdminAPI.Controllers
         [HttpGet("user_status/id={userId}", Name="UserStatus")]
         public List<string> UserStatus(string userId){
             return Globals.pushStore.userStatus(userId);
+        }
+        [HttpPost("silence/id={userId}&targetId={targetUserId}", Name="Silence")]
+        public void Silence(string userId, string targetUserId){
+            Globals.pushStore.silence(userId, targetUserId);
+        }
+        [HttpPost("unsilence/id={userId}&targetId={targetUserId}", Name="Unsilence")]
+        public void Unsilence(string userId, string targetUserId){
+            Globals.pushStore.unsilence(userId, targetUserId);
         }
     }
 }
