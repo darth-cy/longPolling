@@ -58,7 +58,7 @@
     padding-right: 2vw;
     padding-top: 2vw;
     min-height: 150vh;
-    background-color: #ffecb1;
+    background-color: white;
 }
 .list-group{
     border-radius: 0px !important;
@@ -67,4 +67,8 @@
 .list-group-item{
     border-radius: 0px !important;
     border: none;
+}
+.front-form-col{
+    padding-top: 2vw;
+    padding-left: 20%;
 }
