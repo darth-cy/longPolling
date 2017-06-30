@@ -34,7 +34,6 @@ namespace AdminAPI.Controllers
 
             if(users.Count() > 0){
                 ViewBag.Username = users.First().Username;
-
                 return View();
             }else{
                 return RedirectToAction("Login", "User");

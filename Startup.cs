@@ -124,7 +124,6 @@ namespace AdminAPI
                 beingSilencedList.Remove(userId);
             }
         }
-
     }
 
     public static class Globals{
