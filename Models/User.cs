@@ -7,6 +7,7 @@ namespace AdminAPI.Models{
         public string SessionToken { get; set; }
         public string PasswordSalt{ get; set; }
         public string PasswordDigest { get; set; }
+        public string Activities { get; set; }
         public string CreatedAt{ get; set; }
         public string UpdatedAt{ get; set; }
     }

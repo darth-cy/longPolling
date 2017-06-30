@@ -65,7 +65,8 @@ namespace AdminAPI.Controllers
                 PasswordSalt = passwordSalt,
                 CreatedAt = createdAt,
                 UpdatedAt = createdAt,
-                SessionToken = sessionToken
+                SessionToken = sessionToken,
+                Activities = "",
             });
             _context.SaveChanges();
             Globals.pushStore.addSubscription(userName);
@@ -120,12 +121,6 @@ namespace AdminAPI.Controllers
 
             return RedirectToAction("Login", "User");
         }
-
-        [HttpGet("panel", Name="ActionPanel")]
-        public IActionResult ActionPanel(){
-            return View();
-        }
-
         [HttpGet("fetch/{id}", Name="Fetch")]
         public List<string> Fetch(string id){            
             while(!Globals.pushStore.shouldUpdate(id)){
@@ -134,12 +129,13 @@ namespace AdminAPI.Controllers
             
             return Globals.pushStore.newInfo(id);
         }
-
         [HttpPost("post/id={userId}&content={content}", Name="Post")]
         public void Post(string userId, string content){
+            var user = _context.Users.Where(u => u.SessionToken == Request.Cookies["admin-api-session-token"]);
+            user.First().Activities += (content + ";");
+            _context.SaveChanges();
             Globals.pushStore.addInfo(userId, content);
         }
-
         [HttpDelete("delete/id={userId}", Name="Delete")]
         public void Delete(string userId){
             Globals.pushStore.removeSubscription(userId);
